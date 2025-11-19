@@ -1,0 +1,48 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.16",
+  "version": "1.0.0",
+  "id": "4c0e6a6e-066e-4eff-9042-7ec7bc233974",
+  "packageName": "com.sirketiniz.uygulamaadi",
+  "developer": {
+    "name": "Şirket Adı",
+    "websiteUrl": "https://www.satproductions.com",
+    "privacyUrl": "https://www.satproductions.com/privacy",
+    "termsOfUseUrl": "https://www.satproductions.com/terms"
+  },
+  "name": {
+    "short": "Uygulama Adı",
+    "full": "Tam Uygulama Adı"
+  },
+  "description": {
+    "short": "Kısa açıklama",
+    "full": "Uzun açıklama"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#FFFFFF",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://www.satproductions.com/config.html",
+      "canUpdateConfiguration": true,
+      "scopes": ["team", "groupchat"]
+    }
+  ],
+  "staticTabs": [
+    {
+      "entityId": "myapp",
+      "name": "Uygulama",
+      "contentUrl": "https://www.satproductions.com/index.html",
+      "scopes": ["personal"]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "www.satproductions.com"
+  ]
+}
