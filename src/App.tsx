@@ -1,38 +1,65 @@
+
 // @ts-nocheck
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import * as microsoftTeams from "@microsoft/teams-js";
-import './App.css'
+import { app, authentication } from '@microsoft/teams-js';
+import { useEffect, useState } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [userContext, setUserContext] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const initializeTeams = async () => {
+      try {
+        // Initialize the Teams SDK
+        await app.initialize();
+        
+        // Get user context
+        const context = await app.getContext();
+
+        console.log(context)
+        
+        if (context) {
+          setUserContext({
+            userId: context.user?.id,
+            userPrincipalName: context.user?.userPrincipalName,
+            displayName: context.user?.displayName,
+            tenantId: context.user?.tenant?.id,
+            teamId: context.team?.internalId,
+            channelId: context.channel?.id,
+            locale: context.app.locale,
+            theme: context.app.theme
+          });
+
+        }
+
+        
+        // Notify Teams that the app loaded successfully
+        app.notifySuccess();
+      } catch (err) {
+        console.error('Failed to initialize Teams SDK:', err);
+        setError(err.message);
+        app.notifyFailure({
+          reason: app.FailedReason.Other,
+          message: err.message
+        });
+      }
+    };
+
+    initializeTeams();
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-          alperen 09
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      {error && <div>Error: {error}</div>}
+      {userContext && (
+        <div>
+          <h2>Welcome, {userContext?.displayName}!</h2>
+          <p>User ID: {userContext?.userId}</p>
+          <p>Email: {userContext?.userPrincipalName}</p>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default App
