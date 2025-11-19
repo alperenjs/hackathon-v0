@@ -59,6 +59,7 @@ function App() {
           'Authorization': `Bearer ${authToken}`
         }
       });
+      
        
       const userData = await response.json();
       console.log('Detaylı kullanıcı bilgisi:', userData);
