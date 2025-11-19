@@ -48,6 +48,12 @@
       "name": "Sekme 3",
       "contentUrl": "https://hackathon-v0.vercel.app/tab3",
       "scopes": ["personal"]
+    },
+    {
+      "entityId": "tab4",
+      "name": "Sekme 4",
+      "contentUrl": "https://hackathon-v0.vercel.app/tab4",
+      "scopes": ["personal"]
     }
   ],
   "permissions": [
