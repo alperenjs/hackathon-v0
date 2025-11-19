@@ -4,7 +4,7 @@ import { mockMatches } from '@/data/mockData';
 export default function Tab1Page() {
   return (
     <div>
-      <ReservationList matches={mockMatches} onViewDetails={() => { }} onApprove={() => { }} onReject={() => { }} />
+      <ReservationList matches={mockMatches} onApprove={() => { }} onReject={() => { }} />
     </div>
   );
 }

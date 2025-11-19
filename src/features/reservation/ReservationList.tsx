@@ -3,12 +3,11 @@ import { ReservationItem } from './ReservationItem';
 
 interface MentorshipMatchTableProps {
   matches: MentorshipMatch[];
-  onViewDetails: (match: MentorshipMatch) => void;
   onApprove: (matchId: string) => void;
   onReject: (matchId: string) => void;
 }
 
-function MentorshipMatchTable({ matches, onViewDetails, onApprove, onReject }: MentorshipMatchTableProps) {
+function MentorshipMatchTable({ matches, onApprove, onReject }: MentorshipMatchTableProps) {
 
   if (matches.length === 0) {
     return (
@@ -38,12 +37,12 @@ function MentorshipMatchTable({ matches, onViewDetails, onApprove, onReject }: M
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
-            {matches.map((match) => (
+          <tbody>
+            {matches.map((match, index) => (
               <ReservationItem
                 key={match.id}
                 match={match}
-                onViewDetails={onViewDetails}
+                index={index}
                 onApprove={onApprove}
                 onReject={onReject}
               />

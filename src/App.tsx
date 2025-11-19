@@ -5,7 +5,6 @@ import * as Tabs from '@radix-ui/react-tabs';
 import './App.css';
 import Tab1Page from '@/routes/Tab1Page';
 import Tab2Page from '@/routes/Tab2Page';
-import MeetList from './features/meet/MeetList';
 
 function AppContent() {
   const [searchParams] = useSearchParams();
@@ -14,23 +13,27 @@ function AppContent() {
 
   // URL'de tab parametresi varsa, o sekmeye yönlendir
   let CurrentPage = Tab1Page;
-  let MeetListPage = Tab2Page;
+  let OnGoingPage = Tab2Page;
 
   return (
     <div className="flex flex-col h-screen">
       {/* Header - Tabs */}
       <Tabs.Root color="indigo" value={activeTab} onValueChange={setActiveTab} className="flex flex-col h-full">
-        <div className="border-b">
+        <div className="border-b bg-gray-50">
           <Tabs.List className="flex">
             <Tabs.Trigger 
               value="Approvals" 
-              className="px-4 py-2 data-[state=active]:border-b-2 data-[state=active]:border-blue-600"
+              className="px-6 py-3 text-sm font-medium transition-colors
+                data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
+                data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
             >
               Approvals
             </Tabs.Trigger>
             <Tabs.Trigger 
               value="Ongoing" 
-              className="px-4 py-2 data-[state=active]:border-b-2 data-[state=active]:border-blue-600"
+              className="px-6 py-3 text-sm font-medium transition-colors
+                data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
+                data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
             >
               Ongoing
             </Tabs.Trigger>
@@ -43,7 +46,7 @@ function AppContent() {
             <CurrentPage />
           </Tabs.Content>
           <Tabs.Content value="Ongoing" className="h-full">
-          <MeetListPage/>
+            <OnGoingPage />
           </Tabs.Content>
         </div>
       </Tabs.Root>

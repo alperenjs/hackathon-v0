@@ -1,22 +1,20 @@
-import { Calendar, Clock, CheckCircle2, XCircle } from 'lucide-react';
+import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/common/ui/avatar';
 import { Badge } from '@/common/ui/badge';
 import { Button } from '@/common/ui/button';
 import type { MentorshipMatch } from '@/data/mockData';
 
-interface ReservationItemProps {
+interface OngoingItem {
   match: MentorshipMatch;
   index: number;
-  onApprove: (matchId: string) => void;
-  onReject: (matchId: string) => void;
+  onDetailClick: (matchId: string) => void;
 }
 
-export function ReservationItem({
+export function OngoingItem({
   match,
   index,
-  onApprove,
-  onReject,
-}: ReservationItemProps) {
+  onDetailClick,
+}: OngoingItem) {
   const getMatchScoreColor = (score: number) => {
     if (score >= 90) return 'bg-green-100 text-green-800 border-green-200';
     if (score >= 80) return 'bg-blue-100 text-blue-800 border-blue-200';
@@ -139,7 +137,14 @@ export function ReservationItem({
       {/* Suggested Meeting */}
       <td className="px-6 py-4">
         <div className="space-y-2">
+          <div>
+          <Badge  variant="outline" className="!bg-green-100 border-green-800 text-xs  bg-gray-50">
+                  2/5 completed
+                </Badge> 
+          </div>
+     
           <div className="flex items-center gap-2 text-sm text-gray-900">
+         
             <Calendar className="size-4 text-gray-400" />
             <span>{new Date(match.suggestedMeeting.date).toLocaleDateString('en-US', { 
               month: 'short', 
@@ -160,37 +165,16 @@ export function ReservationItem({
       {/* Actions */}
       <td className="px-6 py-4">
         <div className="flex flex-col gap-2">
-          {match.status === 'pending' ? (
             <>
               <Button
                 size="sm"
-                className="!border-green-600 hover:bg-green-700 text-green-700   gap-2 h-8"
-                onClick={() => onApprove(match.id)}
+                className="!border-blue-600 hover:bg-blue-700 text-blue-700   gap-2 h-8"
+                onClick={() => onDetailClick(match.id)}
               >
-                <CheckCircle2 className="size-4" />
-                Approve
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                className="!text-red-600 !border-red-600 hover:bg-red-50 hover:border-red-700 gap-2 h-8"
-                onClick={() => onReject(match.id)}
-              >
-                <XCircle className="size-4" />
-                Reject
+                Details
+                <ArrowRight className="size-4" />
               </Button>
             </>
-          ) : (
-            <Badge 
-              className={
-                match.status === 'approved' 
-                  ? 'bg-green-100 text-green-800 hover:bg-green-100' 
-                  : 'bg-gray-100 text-gray-800 hover:bg-gray-100'
-              }
-            >
-              {match.status === 'approved' ? '✓ Approved' : '✗ Rejected'}
-            </Badge>
-          )}
         </div>
       </td>
     </tr>

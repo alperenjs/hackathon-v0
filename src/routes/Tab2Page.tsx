@@ -1,10 +1,13 @@
-import { mockMatchedAppointments } from '@/data/mockMeetData';
-import MeetList from '@/features/meet/MeetList';
+import { mockMatches } from '@/data/mockData';
+import OngoingList from '@/features/reservation/OnGoingList';
 
 export default function Tab2Page() {
   return (
     <div>
-      <MeetList matchedAppointments={mockMatchedAppointments} onViewDetails={() => { }} />
+      <OngoingList 
+        matches={mockMatches} 
+        onDetailClick={() => { }} 
+      />
     </div>
   );
 }
