@@ -1,14 +1,11 @@
-import { Calendar, Clock, Edit2, MessageSquare, CheckCircle2, XCircle, Eye } from 'lucide-react';
+import { Calendar, Clock, Edit2, CheckCircle2, XCircle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/common/ui/avatar';
 import { Badge } from '@/common/ui/badge';
 import { Button } from '@/common/ui/button';
-import { Textarea } from '@/common/ui/textarea';
 import type { MentorshipMatch } from '@/data/mockData';
 
 interface ReservationItemProps {
   match: MentorshipMatch;
-  isNotesExpanded: boolean;
-  onToggleNotes: () => void;
   onViewDetails: (match: MentorshipMatch) => void;
   onApprove: (matchId: string) => void;
   onReject: (matchId: string) => void;
@@ -16,8 +13,6 @@ interface ReservationItemProps {
 
 export function ReservationItem({
   match,
-  isNotesExpanded,
-  onToggleNotes,
   onViewDetails,
   onApprove,
   onReject,

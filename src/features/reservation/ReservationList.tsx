@@ -1,5 +1,4 @@
 import type { MentorshipMatch } from '@/data/mockData';
-import { useState } from 'react';
 import { ReservationItem } from './ReservationItem';
 
 interface MentorshipMatchTableProps {
@@ -10,17 +9,6 @@ interface MentorshipMatchTableProps {
 }
 
 function MentorshipMatchTable({ matches, onViewDetails, onApprove, onReject }: MentorshipMatchTableProps) {
-  const [expandedNotes, setExpandedNotes] = useState<Set<string>>(new Set());
-
-  const toggleNotes = (matchId: string) => {
-    const newExpanded = new Set(expandedNotes);
-    if (newExpanded.has(matchId)) {
-      newExpanded.delete(matchId);
-    } else {
-      newExpanded.add(matchId);
-    }
-    setExpandedNotes(newExpanded);
-  };
 
   if (matches.length === 0) {
     return (
@@ -55,8 +43,6 @@ function MentorshipMatchTable({ matches, onViewDetails, onApprove, onReject }: M
               <ReservationItem
                 key={match.id}
                 match={match}
-                isNotesExpanded={expandedNotes.has(match.id)}
-                onToggleNotes={() => toggleNotes(match.id)}
                 onViewDetails={onViewDetails}
                 onApprove={onApprove}
                 onReject={onReject}
