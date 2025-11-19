@@ -1,22 +1,54 @@
 // @ts-nocheck
+import { useState } from 'react';
 import { Routes, Route, useSearchParams } from 'react-router-dom';
+import * as Tabs from '@radix-ui/react-tabs';
 import './App.css';
-import Tab1Page from '@/pages/Tab1Page';
-import Tab2Page from '@/pages/Tab2Page';
-import Tab3Page from '@/pages/Tab3Page';
-import Tab4Page from '@/pages/Tab4Page';
+import Tab1Page from '@/routes/Tab1Page';
+import Tab2Page from '@/routes/Tab2Page';
+import MeetList from './features/meet/MeetList';
 
 function AppContent() {
   const [searchParams] = useSearchParams();
   const tab = searchParams.get('tab');
+  const [activeTab, setActiveTab] = useState('Approvals');
 
   // URL'de tab parametresi varsa, o sekmeye yönlendir
-  if (tab === '2') return <Tab2Page />;
-  if (tab === '3') return <Tab3Page />;
-  if (tab === '4') return <Tab4Page />;
-  
-  // Varsayılan olarak Tab1'i göster
-  return <Tab1Page />;
+  let CurrentPage = Tab1Page;
+  let MeetListPage = Tab2Page;
+
+  return (
+    <div className="flex flex-col h-screen">
+      {/* Header - Tabs */}
+      <Tabs.Root color="indigo" value={activeTab} onValueChange={setActiveTab} className="flex flex-col h-full">
+        <div className="border-b">
+          <Tabs.List className="flex">
+            <Tabs.Trigger 
+              value="Approvals" 
+              className="px-4 py-2 data-[state=active]:border-b-2 data-[state=active]:border-blue-600"
+            >
+              Approvals
+            </Tabs.Trigger>
+            <Tabs.Trigger 
+              value="Ongoing" 
+              className="px-4 py-2 data-[state=active]:border-b-2 data-[state=active]:border-blue-600"
+            >
+              Ongoing
+            </Tabs.Trigger>
+          </Tabs.List>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-auto">
+          <Tabs.Content value="Approvals" className="h-full">
+            <CurrentPage />
+          </Tabs.Content>
+          <Tabs.Content value="Ongoing" className="h-full">
+          <MeetListPage/>
+          </Tabs.Content>
+        </div>
+      </Tabs.Root>
+    </div>
+  );
 }
 
 function App() {
@@ -24,9 +56,6 @@ function App() {
     <Routes>
       <Route path="/" element={<AppContent />} />
       <Route path="/index.html" element={<AppContent />} />
-      <Route path="/tab2" element={<Tab2Page />} />
-      <Route path="/tab3" element={<Tab3Page />} />
-      <Route path="/tab4" element={<Tab4Page />} />
     </Routes>
   );
 }

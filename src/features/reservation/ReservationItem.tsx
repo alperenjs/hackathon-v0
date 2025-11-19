@@ -164,7 +164,7 @@ export function ReservationItem({
             <>
               <Button
                 size="sm"
-                className="!bg-green-600 hover:bg-green-700 text-white   gap-2 h-8"
+                className="!border-green-600 hover:bg-green-700 text-green-700   gap-2 h-8"
                 onClick={() => onApprove(match.id)}
               >
                 <CheckCircle2 className="size-4" />
@@ -173,7 +173,7 @@ export function ReservationItem({
               <Button
                 size="sm"
                 variant="outline"
-                className="text-red-600 border-red-600 hover:bg-red-50 hover:border-red-700 gap-2 h-8"
+                className="!text-red-600 !border-red-600 hover:bg-red-50 hover:border-red-700 gap-2 h-8"
                 onClick={() => onReject(match.id)}
               >
                 <XCircle className="size-4" />
