@@ -9,20 +9,14 @@ import Tab4Page from '@/pages/Tab4Page';
 function AppContent() {
   const [searchParams] = useSearchParams();
   const tab = searchParams.get('tab');
-
-  // URL'de tab parametresi varsa, o sekmeye yönlendir
-  if (tab === '2') return <Tab2Page />;
-  if (tab === '3') return <Tab3Page />;
-  if (tab === '4') return <Tab4Page />;
-  
-  // Varsayılan olarak Tab1'i göster
-  return <Tab1Page />;
 }
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<AppContent />} />
+      <Route path="/tab2" element={<Tab2Page />} />
+      <Route path="/tab3" element={<Tab3Page />} />
       <Route path="/index.html" element={<AppContent />} />
     </Routes>
   );
