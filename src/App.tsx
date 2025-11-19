@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { Routes, Route, useSearchParams } from 'react-router-dom';
 import * as Tabs from '@radix-ui/react-tabs';
 import './App.css';
-import Tab1Page from '@/routes/Tab1Page';
-import Tab2Page from '@/routes/Tab2Page';
+import ReservationListPage from '@/routes/ReservationList';
+import OngoingListPage from '@/routes/OnGoingList';
 
 function AppContent() {
   const [searchParams] = useSearchParams();
@@ -12,8 +12,8 @@ function AppContent() {
   const [activeTab, setActiveTab] = useState('Approvals');
 
   // URL'de tab parametresi varsa, o sekmeye yönlendir
-  let CurrentPage = Tab1Page;
-  let OnGoingPage = Tab2Page;
+  let ReservationPage = ReservationListPage;
+  let OnGoingPage = OngoingListPage;
 
   return (
     <div className="flex flex-col h-screen">
@@ -43,7 +43,7 @@ function AppContent() {
         {/* Content */}
         <div className="flex-1 overflow-auto">
           <Tabs.Content value="Approvals" className="h-full">
-            <CurrentPage />
+            <ReservationPage />
           </Tabs.Content>
           <Tabs.Content value="Ongoing" className="h-full">
             <OnGoingPage />

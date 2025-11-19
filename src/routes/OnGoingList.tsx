@@ -1,7 +1,7 @@
 import { mockMatches } from '@/data/mockData';
 import OngoingList from '@/features/reservation/OnGoingList';
 
-export default function Tab2Page() {
+export default function OngoingListPage() {
   return (
     <div>
       <OngoingList 
