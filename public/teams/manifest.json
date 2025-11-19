@@ -6,9 +6,9 @@
   "packageName": "com.sirketiniz.uygulamaadi",
   "developer": {
     "name": "Şirket Adı",
-    "websiteUrl": "https://localhost:4173",
-    "privacyUrl": "https://localhost:4173/privacy",
-    "termsOfUseUrl": "https://localhost:4173/terms"
+    "websiteUrl": "https://hackathon-v0.vercel.app",
+    "privacyUrl": "https://hackathon-v0.vercel.app/privacy",
+    "termsOfUseUrl": "https://hackathon-v0.vercel.app/terms"
   },
   "name": {
     "short": "Uygulama Adı",
@@ -25,7 +25,7 @@
   "accentColor": "#FFFFFF",
   "configurableTabs": [
     {
-      "configurationUrl": "https://localhost:4173/config.html",
+      "configurationUrl": "https://hackathon-v0.vercel.app/config.html",
       "canUpdateConfiguration": true,
       "scopes": ["team", "groupchat"]
     }
@@ -34,7 +34,7 @@
     {
       "entityId": "myapp",
       "name": "Uygulama",
-      "contentUrl": "https://localhost:4173/index.html",
+      "contentUrl": "https://hackathon-v0.vercel.app/index.html",
       "scopes": ["personal"]
     }
   ],
@@ -43,6 +43,6 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "localhost:4173"
+    "hackathon-v0.vercel.app"
   ]
 }
