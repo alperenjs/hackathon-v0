@@ -36,6 +36,24 @@
       "name": "Uygulama",
       "contentUrl": "https://hackathon-v0.vercel.app/index.html",
       "scopes": ["personal"]
+    },
+    {
+      "entityId": "tab2",
+      "name": "Sekme 2",
+      "contentUrl": "https://hackathon-v0.vercel.app/index.html?tab=2",
+      "scopes": ["personal"]
+    },
+    {
+      "entityId": "tab3",
+      "name": "Sekme 3",
+      "contentUrl": "https://hackathon-v0.vercel.app/index.html?tab=3",
+      "scopes": ["personal"]
+    },
+    {
+      "entityId": "tab4",
+      "name": "Sekme 4",
+      "contentUrl": "https://hackathon-v0.vercel.app/index.html?tab=4",
+      "scopes": ["personal"]
     }
   ],
   "permissions": [
