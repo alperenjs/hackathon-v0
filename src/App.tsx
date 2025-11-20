@@ -5,7 +5,6 @@ import * as Tabs from '@radix-ui/react-tabs';
 import './App.css';
 import ReservationListPage from '@/routes/ReservationList';
 import OngoingListPage from '@/routes/OnGoingList';
-import { useUserContext } from '@/contexts/UserContext';
 // Example: Using API hooks
 import { useWaitingMatches, useApproveMatch, useRejectMatch } from '@/hooks/api/useMatches';
 
@@ -47,7 +46,6 @@ function AppContent() {
   const [searchParams] = useSearchParams();
   const tab = searchParams.get('tab');
   const [activeTab, setActiveTab] = useState('Approvals');
-  const { displayName } = useUserContext();
 
   // URL'de tab parametresi varsa, o sekmeye yönlendir
   let ReservationPage = ReservationListPage;
@@ -58,31 +56,24 @@ function AppContent() {
       {/* Header - Tabs */}
       <Tabs.Root color="indigo" value={activeTab} onValueChange={setActiveTab} className="flex flex-col h-full">
         <div className="border-b bg-gray-50">
-          <div className="flex items-center justify-between">
-            <Tabs.List className="flex">
-              <Tabs.Trigger 
-                value="Approvals" 
-                className="px-6 py-3 text-sm font-medium transition-colors
-                  data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
-                  data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
-              >
-                Approvals
-              </Tabs.Trigger>
-              <Tabs.Trigger 
-                value="Ongoing" 
-                className="px-6 py-3 text-sm font-medium transition-colors
-                  data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
-                  data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
-              >
-                Ongoing
-              </Tabs.Trigger>
-            </Tabs.List>
-            {displayName && (
-              <div className="px-6 py-3 text-sm font-medium text-gray-700">
-                {displayName}
-              </div>
-            )}
-          </div>
+          <Tabs.List className="flex">
+            <Tabs.Trigger 
+              value="Approvals" 
+              className="px-6 py-3 text-sm font-medium transition-colors
+                data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
+                data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
+            >
+              Approvals
+            </Tabs.Trigger>
+            <Tabs.Trigger 
+              value="Ongoing" 
+              className="px-6 py-3 text-sm font-medium transition-colors
+                data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
+                data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
+            >
+              Ongoing
+            </Tabs.Trigger>
+          </Tabs.List>
         </div>
 
         {/* Content */}
