@@ -25,6 +25,7 @@ export interface Match {
   isRejected: boolean;
   rejectId: number | null;
   rejectedUser: User;
+  matchScore?: number;
 }
 
 export interface Meet {

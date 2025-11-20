@@ -91,48 +91,6 @@ function getCommonSkills(mentor: User, mentee?: User): string[] {
 }
 
 /**
- * Calculate match score (simplified - can be enhanced based on actual algorithm)
- */
-function calculateMatchScore(mentor: User, mentee?: User): number {
-  // Mentee yoksa eşleşme yapılamaz → skor 0
-  if (!mentee) return 0;
-
-  const commonSkills = getCommonSkills(mentor, mentee);
-
-  const mentorSkills = mentor.skills
-    ? mentor.skills.split(',').map(s => s.trim()).filter(Boolean)
-    : [];
-
-  const menteeSkills = mentee.skills
-    ? mentee.skills.split(',').map(s => s.trim()).filter(Boolean)
-    : [];
-
-  // Base score from common skills
-  const skillScore =
-    mentorSkills.length > 0
-      ? (commonSkills.length / Math.max(mentorSkills.length, menteeSkills.length)) * 50
-      : 0;
-
-  // Seniority gap score (optimal gap is 5-10 years)
-  const seniorityGap = Math.abs(
-    (mentor.yearsOfExperience ?? 0) - (mentee.yearsOfExperience ?? 0)
-  );
-
-  const gapScore =
-    seniorityGap >= 5 && seniorityGap <= 10
-      ? 30
-      : Math.max(0, 30 - Math.abs(seniorityGap - 7.5) * 2);
-
-  // Department match bonus
-  const departmentBonus =
-    mentor.department && mentee.department && mentor.department === mentee.department
-      ? 20
-      : 0;
-
-  return Math.round(skillScore + gapScore + departmentBonus);
-}
-
-/**
  * Generate reasoning text
  */
 function generateReasoning(mentor: User, mentee?: User, commonSkills: string[] = []): string {
@@ -199,7 +157,7 @@ export function matchToMentorshipMatch(match: Match): MentorshipMatch {
       };
   
   const commonSkills = getCommonSkills(mentor, mentee);
-  const matchScore = calculateMatchScore(mentor, mentee);
+  const matchScore = match.matchScore ?? 0;
   const seniorityGap = Math.abs((mentor.yearsOfExperience ?? 0) - (mentee.yearsOfExperience ?? 0));
   const reasoning = generateReasoning(mentor, mentee, commonSkills);
   

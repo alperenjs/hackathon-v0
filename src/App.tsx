@@ -77,10 +77,9 @@ function AppContent() {
                 Ongoing
               </Tabs.Trigger>
             </Tabs.List>
-            <p>{userPrincipalName}</p>
-            {displayName && (
+            {userPrincipalName && (
               <div className="px-6 py-3 text-sm font-medium text-gray-700">
-                {displayName}
+                {userPrincipalName}
               </div>
             )}
           </div>
