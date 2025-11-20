@@ -1,0 +1,95 @@
+================================================================================
+GARAVEL - MENTORSHIP PLATFORM
+ARCHITECTURE OVERVIEW (HACKATHON PRESENTATION)
+================================================================================
+
+OVERVIEW
+--------
+Intelligent mentorship matching platform integrated with Microsoft Teams.
+Connects employees globally through AI-powered matching algorithms.
+
+TECH STACK
+----------
+Frontend: React 19 + TypeScript, Vite, TailwindCSS, Radix UI
+Backend: RESTful API (ASP.NET Core)
+Integration: Microsoft Teams SDK
+Deployment: Vercel
+
+ARCHITECTURE (5 LAYERS)
+-----------------------
+
+1. PRESENTATION LAYER
+   • Routes: About, ReservationList, OnGoingList
+   • Features: Match management, Meeting details
+   • UI Components: Radix UI primitives
+
+2. BUSINESS LOGIC LAYER
+   • Custom Hooks: useMatches, useMeets, useUsers, useManage
+   • Data Adapters: API ↔ UI transformation
+   • State Management: React Hooks + Context API
+
+3. SERVICE LAYER
+   • API Services: matches, meets, users, manage
+   • Axios Client: Centralized HTTP configuration
+   • Error Handling: Custom ApiError class
+
+4. DATA LAYER
+   • TypeScript Interfaces
+   • Type-safe API contracts
+   • Data validation
+
+5. CONTEXT LAYER
+   • UserContext: Teams SDK integration
+   • Authentication: Automatic user identification
+   • Role-based access control
+
+KEY FEATURES
+------------
+
+✓ Role-Based Access Control
+  • HR: Full access (Approvals + Ongoing)
+  • Non-HR: Limited access (Only Ongoing matches)
+
+✓ Intelligent Matching
+  • AI-powered algorithm
+  • Skill-based pairing
+  • Match score calculation
+
+✓ Real-time Updates
+  • Optimistic UI updates
+  • Loading states per operation
+  • Toast notifications
+
+✓ Microsoft Teams Integration
+  • Native Teams app
+  • User context from Teams SDK
+  • Seamless authentication
+
+API FLOW
+--------
+User Action → Component → Hook → Service → Axios → Backend API
+                                                          ↓
+UI Update ← Component ← Hook ← Service ← Axios ← Response
+
+SECURITY
+--------
+• Teams SDK authentication
+• Role-based access control
+• CORS protection
+• Secure header management
+
+DEPLOYMENT
+----------
+Development: Vite dev server with proxy
+Production: Vercel (Serverless + CDN)
+API Proxy: Vercel rewrites for CORS handling
+
+PERFORMANCE
+-----------
+• Code splitting
+• Lazy loading
+• Optimistic updates
+• Efficient re-renders
+
+================================================================================
+

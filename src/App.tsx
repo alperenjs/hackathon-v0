@@ -6,6 +6,7 @@ import './App.css';
 import ReservationListPage from '@/routes/ReservationList';
 import OngoingListPage from '@/routes/OnGoingList';
 import AboutPage from '@/routes/About';
+import DashboardPage from '@/routes/Dashboard';
 import { useUserContext } from '@/contexts/UserContext';
 import { useUser } from '@/hooks/api/useUsers';
 // Example: Using API hooks
@@ -85,6 +86,14 @@ function AppContent() {
                   About
                 </Tabs.Trigger>
                 <Tabs.Trigger 
+                  value="Dashboard" 
+                  className="px-6 py-3 text-sm font-medium transition-colors
+                    data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
+                    data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
+                >
+                  Dashboard
+                </Tabs.Trigger>
+                <Tabs.Trigger 
                   value="Ongoing" 
                   className="px-6 py-3 text-sm font-medium transition-colors
                     data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
@@ -103,6 +112,9 @@ function AppContent() {
           <div className="flex-1 overflow-auto">
             <Tabs.Content value="About" className="h-full">
               <AboutPage />
+            </Tabs.Content>
+            <Tabs.Content value="Dashboard" className="h-full">
+              <DashboardPage />
             </Tabs.Content>
             <Tabs.Content value="Ongoing" className="h-full">
               <OnGoingPage userId={user?.id} isNotHR={isNotHR} />
@@ -127,6 +139,14 @@ function AppContent() {
                   data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
               >
                 About
+              </Tabs.Trigger>
+              <Tabs.Trigger 
+                value="Dashboard" 
+                className="px-6 py-3 text-sm font-medium transition-colors
+                  data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
+                  data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
+              >
+                Dashboard
               </Tabs.Trigger>
               <Tabs.Trigger 
                 value="Approvals" 
@@ -157,6 +177,9 @@ function AppContent() {
         <div className="flex-1 overflow-auto">
           <Tabs.Content value="About" className="h-full">
             <AboutPage />
+          </Tabs.Content>
+          <Tabs.Content value="Dashboard" className="h-full">
+            <DashboardPage />
           </Tabs.Content>
           <Tabs.Content value="Approvals" className="h-full">
             <ReservationPage />
