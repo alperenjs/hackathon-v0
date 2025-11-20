@@ -60,10 +60,10 @@ export function OngoingItem({
                 <p className="text-sm text-gray-900 truncate">{match.junior.name}</p>
                 <span className="text-base">{getCountryFlag(match.junior.countryCode)}</span>
               </div>
-              <p className="text-xs text-gray-500 truncate">{match.junior.role}</p>
               <div className="flex items-center gap-2 mt-0.5">
+              <p className="text-xs text-gray-500 truncate">{match.junior.role}</p>
+
                 <Badge variant="secondary" className="text-xs px-1.5 py-0 pl-0">
-                  {match.junior.department}
                 </Badge>
                 <Badge variant="outline" className="text-xs px-1.5 py-0 bg-blue-50 text-blue-700 border-blue-200">
                   {match.junior.seniority}
@@ -90,10 +90,10 @@ export function OngoingItem({
                 <p className="text-sm text-gray-900 truncate">{match.senior.name}</p>
                 <span className="text-base">{getCountryFlag(match.senior.countryCode)}</span>
               </div>
-              <p className="text-xs text-gray-500 truncate">{match.senior.role}</p>
               <div className="flex items-center gap-2 mt-0.5">
+              <p className="text-xs text-gray-500 truncate">{match.senior.role}</p>
+
                 <Badge variant="secondary" className="text-xs px-1.5 py-0">
-                  {match.senior.department}
                 </Badge>
                 <Badge variant="outline" className="text-xs px-1.5 py-0 bg-purple-50 text-purple-700 border-purple-200">
                   {match.senior.seniority}

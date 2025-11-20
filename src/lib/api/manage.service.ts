@@ -17,5 +17,13 @@ export const manageService = {
     const result = await apiClient.get<MatchListGenericResult>('/api/Manage/generate-matches');
     return result.data || [];
   },
+
+  /**
+   * Regenerate matches with AI
+   */
+  regenerateMatchesWithAI: async (): Promise<MatchListGenericResult['data']> => {
+    const result = await apiClient.get<MatchListGenericResult>('/api/Manage/regenerate-matches-withai');
+    return result.data || [];
+  },
 };
 

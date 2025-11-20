@@ -52,3 +52,25 @@ export const useGenerateMatches = () => {
   return { ...state, generateMatches };
 };
 
+export const useRegenerateMatchesWithAI = () => {
+  const [state, setState] = useState<UseManageMutationState>({
+    loading: false,
+    error: null,
+  });
+
+  const regenerateMatchesWithAI = useCallback(async (): Promise<Match[] | null> => {
+    setState({ loading: true, error: null });
+    try {
+      const result = await manageService.regenerateMatchesWithAI();
+      setState({ loading: false, error: null });
+      return result;
+    } catch (err) {
+      const error = err instanceof ApiError ? err.message : 'Failed to regenerate matches with AI';
+      setState({ loading: false, error });
+      throw err;
+    }
+  }, []);
+
+  return { ...state, regenerateMatchesWithAI };
+};
+

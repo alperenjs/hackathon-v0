@@ -6,6 +6,7 @@ import './App.css';
 import ReservationListPage from '@/routes/ReservationList';
 import OngoingListPage from '@/routes/OnGoingList';
 import { useUserContext } from '@/contexts/UserContext';
+import { useUser } from '@/hooks/api/useUsers';
 // Example: Using API hooks
 import { useWaitingMatches, useApproveMatch, useRejectMatch } from '@/hooks/api/useMatches';
 
@@ -48,11 +49,47 @@ function AppContent() {
   const tab = searchParams.get('tab');
   const [activeTab, setActiveTab] = useState('Approvals');
   const { displayName, userPrincipalName } = useUserContext();
+  const { data: user, loading: userLoading } = useUser();
+
+  // Check if user branch is different than "HR"
+  const isNotHR = user?.branch !== 'HR';
 
   // URL'de tab parametresi varsa, o sekmeye yönlendir
   let ReservationPage = ReservationListPage;
   let OnGoingPage = OngoingListPage;
 
+  if (userLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-gray-500">Loading...</div>
+      </div>
+    );
+  }
+
+  // Conditionally set route components based on branch
+  if (isNotHR) {
+    // For non-HR users, show only Ongoing page
+    return (
+      <div className="flex flex-col h-screen">
+        <div className="border-b bg-gray-50">
+          <div className="flex items-center justify-between">
+            <div className="px-6 py-3 text-sm font-medium text-gray-700">
+              Ongoing Matches
+            </div>
+            {userPrincipalName && (
+              <div className="px-6 py-3 text-sm font-medium text-gray-700">
+                {userPrincipalName}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="flex-1 overflow-auto">
+          <OnGoingPage userId={user?.id} isNotHR={isNotHR} />
+        </div>
+      </div>
+    );
+  }
+  // For HR users, show tabs with Approvals and Ongoing
   return (
     <div className="flex flex-col h-screen">
       {/* Header - Tabs */}
@@ -91,7 +128,7 @@ function AppContent() {
             <ReservationPage />
           </Tabs.Content>
           <Tabs.Content value="Ongoing" className="h-full">
-            <OnGoingPage />
+            <OnGoingPage userId={user?.id} isNotHR={isNotHR} />
           </Tabs.Content>
         </div>
       </Tabs.Root>
