@@ -5,6 +5,7 @@ import * as Tabs from '@radix-ui/react-tabs';
 import './App.css';
 import ReservationListPage from '@/routes/ReservationList';
 import OngoingListPage from '@/routes/OnGoingList';
+import AboutPage from '@/routes/About';
 import { useUserContext } from '@/contexts/UserContext';
 import { useUser } from '@/hooks/api/useUsers';
 // Example: Using API hooks
@@ -47,7 +48,7 @@ function ExampleComponent() {
 function AppContent() {
   const [searchParams] = useSearchParams();
   const tab = searchParams.get('tab');
-  const [activeTab, setActiveTab] = useState('Approvals');
+  const [activeTab, setActiveTab] = useState('About');
   const { displayName, userPrincipalName } = useUserContext();
   const { data: user, loading: userLoading } = useUser();
 
@@ -68,24 +69,46 @@ function AppContent() {
 
   // Conditionally set route components based on branch
   if (isNotHR) {
-    // For non-HR users, show only Ongoing page
+    // For non-HR users, show tabs with About and Ongoing
     return (
       <div className="flex flex-col h-screen">
-        <div className="border-b bg-gray-50">
-          <div className="flex items-center justify-between">
-            <div className="px-6 py-3 text-sm font-medium text-gray-700">
-              Ongoing Matches
+        <Tabs.Root color="indigo" value={activeTab} onValueChange={setActiveTab} className="flex flex-col h-full">
+          <div className="border-b bg-gray-50">
+            <div className="flex items-center justify-between">
+              <Tabs.List className="flex">
+                <Tabs.Trigger 
+                  value="About" 
+                  className="px-6 py-3 text-sm font-medium transition-colors
+                    data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
+                    data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
+                >
+                  About
+                </Tabs.Trigger>
+                <Tabs.Trigger 
+                  value="Ongoing" 
+                  className="px-6 py-3 text-sm font-medium transition-colors
+                    data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
+                    data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
+                >
+                  Ongoing
+                </Tabs.Trigger>
+              </Tabs.List>
+              {userPrincipalName && (
+                <div className="px-6 py-3 text-sm font-medium text-gray-700">
+                  {userPrincipalName}
+                </div>
+              )}
             </div>
-            {userPrincipalName && (
-              <div className="px-6 py-3 text-sm font-medium text-gray-700">
-                {userPrincipalName}
-              </div>
-            )}
           </div>
-        </div>
-        <div className="flex-1 overflow-auto">
-          <OnGoingPage userId={user?.id} isNotHR={isNotHR} />
-        </div>
+          <div className="flex-1 overflow-auto">
+            <Tabs.Content value="About" className="h-full">
+              <AboutPage />
+            </Tabs.Content>
+            <Tabs.Content value="Ongoing" className="h-full">
+              <OnGoingPage userId={user?.id} isNotHR={isNotHR} />
+            </Tabs.Content>
+          </div>
+        </Tabs.Root>
       </div>
     );
   }
@@ -97,6 +120,14 @@ function AppContent() {
         <div className="border-b bg-gray-50">
           <div className="flex items-center justify-between">
             <Tabs.List className="flex">
+              <Tabs.Trigger 
+                value="About" 
+                className="px-6 py-3 text-sm font-medium transition-colors
+                  data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
+                  data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
+              >
+                About
+              </Tabs.Trigger>
               <Tabs.Trigger 
                 value="Approvals" 
                 className="px-6 py-3 text-sm font-medium transition-colors
@@ -124,6 +155,9 @@ function AppContent() {
 
         {/* Content */}
         <div className="flex-1 overflow-auto">
+          <Tabs.Content value="About" className="h-full">
+            <AboutPage />
+          </Tabs.Content>
           <Tabs.Content value="Approvals" className="h-full">
             <ReservationPage />
           </Tabs.Content>
