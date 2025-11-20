@@ -1,4 +1,4 @@
-import { Calendar, Clock, User, CheckCircle2, Circle } from 'lucide-react';
+import { Calendar, Clock, User } from 'lucide-react';
 import { Badge } from '@/common/ui/badge';
 import type { Meet } from '@/lib/types/api';
 
