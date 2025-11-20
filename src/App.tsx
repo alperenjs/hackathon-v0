@@ -70,10 +70,13 @@ function AppContent() {
 
   // Conditionally set route components based on branch
   if (isNotHR) {
-    // For non-HR users, show tabs with About and Ongoing
+    // For non-HR users, show tabs with About and Ongoing (no Dashboard)
+    // Ensure activeTab is not Dashboard for non-HR users
+    const safeActiveTab = activeTab === 'Dashboard' ? 'About' : activeTab;
+    
     return (
       <div className="flex flex-col h-screen">
-        <Tabs.Root color="indigo" value={activeTab} onValueChange={setActiveTab} className="flex flex-col h-full">
+        <Tabs.Root color="indigo" value={safeActiveTab} onValueChange={setActiveTab} className="flex flex-col h-full">
           <div className="border-b bg-gray-50">
             <div className="flex items-center justify-between">
               <Tabs.List className="flex">
@@ -84,14 +87,6 @@ function AppContent() {
                     data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
                 >
                   About
-                </Tabs.Trigger>
-                <Tabs.Trigger 
-                  value="Dashboard" 
-                  className="px-6 py-3 text-sm font-medium transition-colors
-                    data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
-                    data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-100"
-                >
-                  Dashboard
                 </Tabs.Trigger>
                 <Tabs.Trigger 
                   value="Ongoing" 
@@ -112,9 +107,6 @@ function AppContent() {
           <div className="flex-1 overflow-auto">
             <Tabs.Content value="About" className="h-full">
               <AboutPage />
-            </Tabs.Content>
-            <Tabs.Content value="Dashboard" className="h-full">
-              <DashboardPage />
             </Tabs.Content>
             <Tabs.Content value="Ongoing" className="h-full">
               <OnGoingPage userId={user?.id} isNotHR={isNotHR} />
