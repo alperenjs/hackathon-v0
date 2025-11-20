@@ -21,9 +21,9 @@ class ApiClient {
   private client: AxiosInstance;
 
   constructor(baseURL?: string) {
-    // Use proxy in development, full URL in production
-    const isDevelopment = import.meta.env.DEV;
-    const defaultBaseURL = isDevelopment ? '' : 'https://garavel.doganozturk.net/';
+    // Use relative paths to go through Vercel proxy in production
+    // In development, Vite proxy handles it
+    const defaultBaseURL = '';
     
     this.client = axios.create({
       baseURL: baseURL || defaultBaseURL,
