@@ -5,6 +5,7 @@ interface MentorshipMatchTableProps {
   matches: MentorshipMatch[];
   onApprove: (matchId: string) => void;
   onReject: (matchId: string) => void;
+  loading?: boolean;
 }
 
 function MentorshipMatchTable({ matches, onApprove, onReject }: MentorshipMatchTableProps) {
@@ -28,9 +29,6 @@ function MentorshipMatchTable({ matches, onApprove, onReject }: MentorshipMatchT
               </th>
               <th className="px-6 py-3 text-left text-xs text-gray-600 uppercase tracking-wider">
                 Match Details
-              </th>
-              <th className="px-6 py-3 text-left text-xs text-gray-600 uppercase tracking-wider">
-                Suggested Meeting
               </th>
               <th className="px-6 py-3 text-left text-xs text-gray-600 uppercase tracking-wider">
                 Actions

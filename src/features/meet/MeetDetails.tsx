@@ -1,4 +1,4 @@
-import { Calendar, Clock, User, Briefcase, Award, MessageSquare, CheckCircle2, Circle } from 'lucide-react';
+import { Calendar, Clock, User, Briefcase, Award, CheckCircle2, Circle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/common/ui/avatar';
 import { Badge } from '@/common/ui/badge';
 import {
@@ -23,12 +23,6 @@ export function MeetDetails({ match, open, onOpenChange }: MeetDetailsProps) {
   // Find appointments for this match
   const matchedAppointment = mockMatchedAppointments.find(ma => ma.matchId === match.id);
   const appointments = matchedAppointment?.appointments || [];
-
-  const getMatchScoreColor = (score: number) => {
-    if (score >= 90) return 'bg-green-100 text-green-800 border-green-200';
-    if (score >= 80) return 'bg-blue-100 text-blue-800 border-blue-200';
-    return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-  };
 
   const getCountryFlag = (countryCode: string) => {
     const flags: Record<string, string> = {
@@ -113,11 +107,7 @@ export function MeetDetails({ match, open, onOpenChange }: MeetDetailsProps) {
                       ))}
                     </div>
                   </div>
-                  {match.junior.bio && (
-                    <div className="mt-3 pt-3 border-t border-blue-200">
-                      <p className="text-xs text-gray-600">{match.junior.bio}</p>
-                    </div>
-                  )}
+                 
                 </div>
               </div>
 
@@ -161,64 +151,17 @@ export function MeetDetails({ match, open, onOpenChange }: MeetDetailsProps) {
                       ))}
                     </div>
                   </div>
-                  {match.senior.bio && (
-                    <div className="mt-3 pt-3 border-t border-purple-200">
-                      <p className="text-xs text-gray-600">{match.senior.bio}</p>
-                    </div>
-                  )}
+                
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Match Details */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
-              Match Details
-            </h3>
-            <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Match Score:</span>
-                <Badge className={`${getMatchScoreColor(match.matchScore)} border`}>
-                  {match.matchScore}%
-                </Badge>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Seniority Gap:</span>
-                <span className="text-sm font-medium text-gray-900">{match.seniorityGap} years</span>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-2">Common Skills:</p>
-                <div className="flex flex-wrap gap-2">
-                  {match.commonSkills.map((skill: string, idx: number) => (
-                    <Badge key={idx} variant="outline" className="bg-white">
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <div className="flex items-start gap-2">
-                  <MessageSquare className="size-4 text-gray-400 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-gray-900 mb-1">Reasoning:</p>
-                    <p className="text-sm text-gray-700">{match.reasoning}</p>
-                  </div>
-                </div>
-              </div>
-              {match.hrNotes && (
-                <div>
-                  <p className="text-sm font-medium text-gray-900 mb-1">HR Notes:</p>
-                  <p className="text-sm text-gray-700">{match.hrNotes}</p>
-                </div>
-              )}
-            </div>
-          </div>
 
           {/* Following Meetings */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
-              Following Meetings
+              Meeting TRACKING
             </h3>
             {appointments.length === 0 ? (
               <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 text-center">
@@ -249,6 +192,7 @@ export function MeetDetails({ match, open, onOpenChange }: MeetDetailsProps) {
                             <div className="flex items-center gap-2 mb-1">
                               <Calendar className="size-4 text-gray-500" />
                               <p className="text-sm font-semibold text-gray-900">
+                               
                                 {new Date(appointment.date).toLocaleDateString('en-US', {
                                   weekday: 'short',
                                   month: 'short',
@@ -257,8 +201,8 @@ export function MeetDetails({ match, open, onOpenChange }: MeetDetailsProps) {
                                 })}
                               </p>
                             </div>
-                            <div className="flex items-center gap-4 text-xs text-gray-600 ml-6">
-                              <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-4 text-xs text-gray-600">
+                              <div className="flex items-center text-start gap-1">
                                 <Clock className="size-3" />
                                 <span>{appointment.time} {appointment.timezone}</span>
                               </div>

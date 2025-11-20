@@ -1,4 +1,4 @@
-import { Calendar, Clock, CheckCircle2, XCircle } from 'lucide-react';
+import { CheckCircle2, XCircle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/common/ui/avatar';
 import { Badge } from '@/common/ui/badge';
 import { Button } from '@/common/ui/button';
@@ -21,20 +21,6 @@ export function ReservationItem({
     if (score >= 90) return 'bg-green-100 text-green-800 border-green-200';
     if (score >= 80) return 'bg-blue-100 text-blue-800 border-blue-200';
     return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-  };
-
-  const getCountryFlag = (countryCode: string) => {
-    const flags: Record<string, string> = {
-      US: '🇺🇸',
-      GB: '🇬🇧',
-      CA: '🇨🇦',
-      DE: '🇩🇪',
-      FR: '🇫🇷',
-      BR: '🇧🇷',
-      JP: '🇯🇵',
-      SG: '🇸🇬',
-    };
-    return flags[countryCode] || '🌍';
   };
 
   const isEven = index % 2 === 0;
@@ -60,13 +46,11 @@ export function ReservationItem({
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <p className="text-sm text-gray-900 truncate">{match.junior.name}</p>
-                <span className="text-base">{getCountryFlag(match.junior.countryCode)}</span>
+                <span className="text-base">{match.junior.countryCode}</span>
               </div>
-              <p className="text-xs text-gray-500 truncate">{match.junior.role}</p>
               <div className="flex items-center gap-2 mt-0.5">
-                <Badge variant="secondary" className="text-xs px-1.5 py-0">
-                  {match.junior.department}
-                </Badge>
+              <p className="text-xs text-gray-500 truncate">{match.junior.role}</p>
+                
                 <Badge variant="outline" className="text-xs px-1.5 py-0 bg-blue-50 text-blue-700 border-blue-200">
                   {match.junior.seniority}
                 </Badge>
@@ -90,13 +74,11 @@ export function ReservationItem({
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <p className="text-sm text-gray-900 truncate">{match.senior.name}</p>
-                <span className="text-base">{getCountryFlag(match.senior.countryCode)}</span>
+                <span className="text-base">{match.senior.countryCode}</span>
               </div>
-              <p className="text-xs text-gray-500 truncate">{match.senior.role}</p>
               <div className="flex items-center gap-2 mt-0.5">
-                <Badge variant="secondary" className="text-xs px-1.5 py-0">
-                  {match.senior.department}
-                </Badge>
+              <p className="text-xs text-gray-500 truncate">{match.senior.role}</p>
+
                 <Badge variant="outline" className="text-xs px-1.5 py-0 bg-purple-50 text-purple-700 border-purple-200">
                   {match.senior.seniority}
                 </Badge>
@@ -136,26 +118,6 @@ export function ReservationItem({
         </div>
       </td>
 
-      {/* Suggested Meeting */}
-      <td className="px-6 py-4">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-sm text-gray-900">
-            <Calendar className="size-4 text-gray-400" />
-            <span>{new Date(match.suggestedMeeting.date).toLocaleDateString('en-US', { 
-              month: 'short', 
-              day: 'numeric',
-              year: 'numeric'
-            })}</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-gray-900">
-            <Clock className="size-4 text-gray-400" />
-            <span>{match.suggestedMeeting.time} {match.suggestedMeeting.timezone}</span>
-          </div>
-          <div className="flex items-center gap-2 text-xs text-gray-500">
-            <span>{match.suggestedMeeting.duration} minutes</span>
-          </div>
-        </div>
-      </td>
 
       {/* Actions */}
       <td className="px-6 py-4">

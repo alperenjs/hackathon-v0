@@ -15,4 +15,16 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://garavel.doganozturk.net',
+        changeOrigin: true,
+        secure: true,
+        headers: {
+          'x-u': 'a.sozen@teamsystem.com',
+        },
+      },
+    },
+  },
 })

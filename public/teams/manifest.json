@@ -5,18 +5,18 @@
   "id": "4c0e6a6e-066e-4eff-9042-7ec7bc233974",
   "packageName": "com.sirketiniz.uygulamaadi",
   "developer": {
-    "name": "Şirket Adı",
+    "name": "G.O.R.A",
     "websiteUrl": "https://hackathon-v0.vercel.app",
     "privacyUrl": "https://hackathon-v0.vercel.app/privacy",
     "termsOfUseUrl": "https://hackathon-v0.vercel.app/terms"
   },
   "name": {
-    "short": "Uygulama Adı",
-    "full": "Tam Uygulama Adı"
+    "short": "Garavel",
+    "full": "Garavel - International Mentorship & Integration Program"
   },
   "description": {
-    "short": "Kısa açıklama",
-    "full": "Uzun açıklama"
+    "short": "Garavel International Mentorship & Integration Program",
+    "full": "Garavel International Mentorship & Integration Program is a company-wide initiative designed to connect employees across different countries, functions, and seniority levels. The program aims to strengthen cross-cultural collaboration, accelerate professional growth, and foster a more cohesive global workforce. Through our intelligent matching system, junior and senior employees are paired based on shared skills, career goals, expertise areas, and cultural diversity factors. Each match includes structured mentoring sessions, skill-building guidance, and integration activities that help employees build meaningful professional relationships beyond their local teams."
   },
   "icons": {
     "color": "color.png",
@@ -33,7 +33,7 @@
   "staticTabs": [
     {
       "entityId": "myapp",
-      "name": "Uygulama",
+      "name": "App",
       "contentUrl": "https://hackathon-v0.vercel.app/index.html",
       "scopes": ["personal"]
     }

@@ -62,7 +62,7 @@ export function OngoingItem({
               </div>
               <p className="text-xs text-gray-500 truncate">{match.junior.role}</p>
               <div className="flex items-center gap-2 mt-0.5">
-                <Badge variant="secondary" className="text-xs px-1.5 py-0">
+                <Badge variant="secondary" className="text-xs px-1.5 py-0 pl-0">
                   {match.junior.department}
                 </Badge>
                 <Badge variant="outline" className="text-xs px-1.5 py-0 bg-blue-50 text-blue-700 border-blue-200">
@@ -155,9 +155,6 @@ export function OngoingItem({
           <div className="flex items-center gap-2 text-sm text-gray-900">
             <Clock className="size-4 text-gray-400" />
             <span>{match.suggestedMeeting.time} {match.suggestedMeeting.timezone}</span>
-          </div>
-          <div className="flex items-center gap-2 text-xs text-gray-500">
-            <span>{match.suggestedMeeting.duration} minutes</span>
           </div>
         </div>
       </td>
