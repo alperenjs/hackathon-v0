@@ -6,19 +6,21 @@ import { MeetDetails } from '@/features/meet/MeetDetails';
 interface OngoingListProps {
   matches: MentorshipMatch[];
   onDetailClick: (matchId: string) => void;
+  meetsData?: Record<string, any[]>;
+  loadingMeets?: boolean;
 }
 
-function OngoingList({ matches, onDetailClick }: OngoingListProps) {
+function OngoingList({ matches, onDetailClick, meetsData = {}, loadingMeets = false }: OngoingListProps) {
   const [selectedMatch, setSelectedMatch] = useState<MentorshipMatch | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleDetailClick = (matchId: string) => {
+  const handleDetailClick = async (matchId: string) => {
     const match = matches.find(m => m.id === matchId);
     if (match) {
       setSelectedMatch(match);
       setIsModalOpen(true);
     }
-    onDetailClick(matchId);
+    await onDetailClick(matchId);
   };
 
   if (matches.length === 0) {
@@ -66,7 +68,9 @@ function OngoingList({ matches, onDetailClick }: OngoingListProps) {
       <MeetDetails 
         match={selectedMatch} 
         open={isModalOpen} 
-        onOpenChange={setIsModalOpen} 
+        onOpenChange={setIsModalOpen}
+        meets={selectedMatch ? (meetsData[selectedMatch.id] || []) : []}
+        loadingMeets={loadingMeets}
       />
     </>
   );

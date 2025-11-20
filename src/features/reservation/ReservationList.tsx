@@ -5,10 +5,10 @@ interface MentorshipMatchTableProps {
   matches: MentorshipMatch[];
   onApprove: (matchId: string) => void;
   onReject: (matchId: string) => void;
-  loading?: boolean;
+  loadingMatchIds?: Set<string>;
 }
 
-function MentorshipMatchTable({ matches, onApprove, onReject }: MentorshipMatchTableProps) {
+function MentorshipMatchTable({ matches, onApprove, onReject, loadingMatchIds = new Set() }: MentorshipMatchTableProps) {
 
   if (matches.length === 0) {
     return (
@@ -43,6 +43,7 @@ function MentorshipMatchTable({ matches, onApprove, onReject }: MentorshipMatchT
                 index={index}
                 onApprove={onApprove}
                 onReject={onReject}
+                isLoading={loadingMatchIds.has(match.id)}
               />
             ))}
           </tbody>

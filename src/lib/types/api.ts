@@ -40,6 +40,8 @@ export interface Meet {
   menteeFeedback: string | null;
   summaries: string | null;
   meetTime: string;
+  isCompleted: boolean;
+  matchId: number | null;
 }
 
 export interface ProblemDetails {

@@ -25,5 +25,12 @@ export const manageService = {
     const result = await apiClient.get<MatchListGenericResult>('/api/Manage/regenerate-matches-withai');
     return result.data || [];
   },
+
+  /**
+   * Clear meets
+   */
+  clearMeets: async (): Promise<void> => {
+    await apiClient.get('/api/Manage/clear-meets');
+  },
 };
 

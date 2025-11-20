@@ -74,3 +74,24 @@ export const useRegenerateMatchesWithAI = () => {
   return { ...state, regenerateMatchesWithAI };
 };
 
+export const useClearMeets = () => {
+  const [state, setState] = useState<UseManageMutationState>({
+    loading: false,
+    error: null,
+  });
+
+  const clearMeets = useCallback(async (): Promise<void> => {
+    setState({ loading: true, error: null });
+    try {
+      await manageService.clearMeets();
+      setState({ loading: false, error: null });
+    } catch (err) {
+      const error = err instanceof ApiError ? err.message : 'Failed to clear meets';
+      setState({ loading: false, error });
+      throw err;
+    }
+  }, []);
+
+  return { ...state, clearMeets };
+};
+

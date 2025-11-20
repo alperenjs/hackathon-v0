@@ -9,5 +9,13 @@ export const meetsService = {
     const result = await apiClient.get<MeetListGenericResult>('/api/Meets/get-meets');
     return result.data || [];
   },
+
+  /**
+   * Get meets by match ID
+   */
+  getMeetsByMatchId: async (matchId: number): Promise<Meet[]> => {
+    const result = await apiClient.get<MeetListGenericResult>(`/api/Meets/get-meets-by-matchid/${matchId}`);
+    return result.data || [];
+  },
 };
 

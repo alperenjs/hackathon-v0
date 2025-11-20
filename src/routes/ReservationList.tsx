@@ -7,11 +7,16 @@ import type { MentorshipMatch } from '@/data/mockData';
 
 export default function ReservationListPage() {
   const { data: matches, loading, error, refetch } = useWaitingMatches();
-  const { approveMatch, loading: approving } = useApproveMatch();
-  const { rejectMatch, loading: rejecting } = useRejectMatch();
+  const { approveMatch } = useApproveMatch();
+  const { rejectMatch } = useRejectMatch();
   const [removedMatchIds, setRemovedMatchIds] = useState<Set<string>>(new Set());
+  const [loadingMatchIds, setLoadingMatchIds] = useState<Set<string>>(new Set());
 
   const handleApprove = useCallback(async (matchId: string) => {
+    // Prevent multiple clicks
+    if (loadingMatchIds.has(matchId)) return;
+    
+    setLoadingMatchIds(prev => new Set(prev).add(matchId));
     try {
       await approveMatch(parseInt(matchId));
       toast({
@@ -32,10 +37,20 @@ export default function ReservationListPage() {
         variant: 'error',
       });
       console.error('Failed to approve match:', err);
+    } finally {
+      setLoadingMatchIds(prev => {
+        const next = new Set(prev);
+        next.delete(matchId);
+        return next;
+      });
     }
-  }, [approveMatch, refetch]);
+  }, [approveMatch, refetch, loadingMatchIds]);
 
   const handleReject = useCallback(async (matchId: string) => {
+    // Prevent multiple clicks
+    if (loadingMatchIds.has(matchId)) return;
+    
+    setLoadingMatchIds(prev => new Set(prev).add(matchId));
     try {
       await rejectMatch(parseInt(matchId));
       toast({
@@ -56,8 +71,14 @@ export default function ReservationListPage() {
         variant: 'error',
       });
       console.error('Failed to reject match:', err);
+    } finally {
+      setLoadingMatchIds(prev => {
+        const next = new Set(prev);
+        next.delete(matchId);
+        return next;
+      });
     }
-  }, [rejectMatch, refetch]);
+  }, [rejectMatch, refetch, loadingMatchIds]);
 
   if (loading) {
     return (
@@ -87,7 +108,7 @@ export default function ReservationListPage() {
         matches={mentorshipMatches} 
         onApprove={handleApprove} 
         onReject={handleReject}
-        loading={approving || rejecting}
+        loadingMatchIds={loadingMatchIds}
       />
     </div>
   );

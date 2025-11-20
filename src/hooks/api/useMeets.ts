@@ -34,3 +34,26 @@ export const useMeets = () => {
   return { ...state, refetch: fetchMeets };
 };
 
+export const useMeetsByMatchId = () => {
+  const [state, setState] = useState<UseMeetsState>({
+    data: null,
+    loading: false,
+    error: null,
+  });
+
+  const fetchMeetsByMatchId = useCallback(async (matchId: number) => {
+    setState((prev) => ({ ...prev, loading: true, error: null }));
+    try {
+      const data = await meetsService.getMeetsByMatchId(matchId);
+      setState({ data, loading: false, error: null });
+      return data;
+    } catch (err) {
+      const error = err instanceof ApiError ? err.message : 'Failed to fetch meets';
+      setState({ data: null, loading: false, error });
+      throw err;
+    }
+  }, []);
+
+  return { ...state, fetchMeetsByMatchId };
+};
+

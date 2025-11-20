@@ -9,20 +9,18 @@ import {
   DialogTitle,
 } from '@/common/ui/dialog';
 import type { MentorshipMatch } from '@/data/mockData';
-import { mockMatchedAppointments, type AppointmentDetail } from '@/data/mockMeetData';
+import type { Meet } from '@/lib/types/api';
 
 interface MeetDetailsProps {
   match: MentorshipMatch | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  meets?: Meet[];
+  loadingMeets?: boolean;
 }
 
-export function MeetDetails({ match, open, onOpenChange }: MeetDetailsProps) {
+export function MeetDetails({ match, open, onOpenChange, meets = [], loadingMeets = false }: MeetDetailsProps) {
   if (!match) return null;
-
-  // Find appointments for this match
-  const matchedAppointment = mockMatchedAppointments.find(ma => ma.matchId === match.id);
-  const appointments = matchedAppointment?.appointments || [];
 
   const getCountryFlag = (countryCode: string) => {
     const flags: Record<string, string> = {
@@ -38,15 +36,11 @@ export function MeetDetails({ match, open, onOpenChange }: MeetDetailsProps) {
     return flags[countryCode] || '🌍';
   };
 
-  const getStatusBadge = (status: AppointmentDetail['status']) => {
-    switch (status) {
-      case 'completed':
-        return <Badge className="bg-green-100 text-green-800 border-green-200">Completed</Badge>;
-      case 'cancelled':
-        return <Badge className="bg-red-100 text-red-800 border-red-200">Cancelled</Badge>;
-      default:
-        return <Badge className="bg-blue-100 text-blue-800 border-blue-200">Scheduled</Badge>;
+  const getStatusBadge = (isCompleted: boolean) => {
+    if (isCompleted) {
+      return <Badge className="bg-green-100 text-green-800 border-green-200">Completed</Badge>;
     }
+    return <Badge className="bg-blue-100 text-blue-800 border-blue-200">Scheduled</Badge>;
   };
 
   return (
@@ -159,31 +153,34 @@ export function MeetDetails({ match, open, onOpenChange }: MeetDetailsProps) {
 
 
           {/* Following Meetings */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
-              Meeting TRACKING
-            </h3>
-            {appointments.length === 0 ? (
+          {loadingMeets ? (
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+                Meeting TRACKING
+              </h3>
               <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 text-center">
-                <p className="text-sm text-gray-500">No meetings scheduled</p>
+                <p className="text-sm text-gray-500">Loading meetings...</p>
               </div>
-            ) : (
+            </div>
+          ) : meets.length > 0 ? (
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+                Meeting TRACKING
+              </h3>
               <div className="space-y-3">
-                {appointments.map((appointment) => (
+                {meets.map((meet) => (
                   <div
-                    key={appointment.id}
+                    key={meet.id}
                     className={`rounded-lg p-4 border ${
-                      appointment.status === 'completed'
+                      meet.isCompleted
                         ? 'bg-green-50 border-green-200'
-                        : appointment.status === 'cancelled'
-                        ? 'bg-red-50 border-red-200'
                         : 'bg-blue-50 border-blue-200'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-3">
-                          {appointment.status === 'completed' ? (
+                          {meet.isCompleted ? (
                             <CheckCircle2 className="size-5 text-green-600 flex-shrink-0" />
                           ) : (
                             <Circle className="size-5 text-gray-400 flex-shrink-0" />
@@ -192,8 +189,7 @@ export function MeetDetails({ match, open, onOpenChange }: MeetDetailsProps) {
                             <div className="flex items-center gap-2 mb-1">
                               <Calendar className="size-4 text-gray-500" />
                               <p className="text-sm font-semibold text-gray-900">
-                               
-                                {new Date(appointment.date).toLocaleDateString('en-US', {
+                                {new Date(meet.meetTime).toLocaleDateString('en-US', {
                                   weekday: 'short',
                                   month: 'short',
                                   day: 'numeric',
@@ -204,42 +200,43 @@ export function MeetDetails({ match, open, onOpenChange }: MeetDetailsProps) {
                             <div className="flex items-center gap-4 text-xs text-gray-600">
                               <div className="flex items-center text-start gap-1">
                                 <Clock className="size-3" />
-                                <span>{appointment.time} {appointment.timezone}</span>
+                                <span>{new Date(meet.meetTime).toLocaleTimeString('en-US', {
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                })}</span>
                               </div>
-                              <span>•</span>
-                              <span>{appointment.duration} min</span>
                             </div>
                           </div>
                         </div>
-                        {appointment.notes && (
-                          <p className="text-xs text-gray-600 ml-8">{appointment.notes}</p>
+                        {meet.summaries && (
+                          <p className="text-xs text-gray-600 ml-8">{meet.summaries}</p>
                         )}
-                        {appointment.agenda && appointment.agenda.length > 0 && (
+                        {meet.mentorFeedback && (
                           <div className="ml-8">
-                            <p className="text-xs text-gray-500 mb-1">Agenda:</p>
-                            <ul className="text-xs text-gray-600 space-y-0.5">
-                              {appointment.agenda.map((item, idx) => (
-                                <li key={idx} className="flex items-start gap-1">
-                                  <span className="text-gray-400">•</span>
-                                  <span>{item}</span>
-                                </li>
-                              ))}
-                            </ul>
+                            <p className="text-xs text-gray-500 mb-1">Mentor Feedback:</p>
+                            <p className="text-xs text-gray-600">{meet.mentorFeedback}</p>
+                          </div>
+                        )}
+                        {meet.menteeFeedback && (
+                          <div className="ml-8">
+                            <p className="text-xs text-gray-500 mb-1">Mentee Feedback:</p>
+                            <p className="text-xs text-gray-600">{meet.menteeFeedback}</p>
                           </div>
                         )}
                       </div>
                       <div className="flex-shrink-0">
-                        {getStatusBadge(appointment.status)}
+                        {getStatusBadge(meet.isCompleted)}
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
-            )}
-          </div>
+            </div>
+          ) : null}
         </div>
       </DialogContent>
     </Dialog>
   );
 }
+
 

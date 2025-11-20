@@ -1,4 +1,4 @@
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, Loader2 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/common/ui/avatar';
 import { Badge } from '@/common/ui/badge';
 import { Button } from '@/common/ui/button';
@@ -9,6 +9,7 @@ interface ReservationItemProps {
   index: number;
   onApprove: (matchId: string) => void;
   onReject: (matchId: string) => void;
+  isLoading?: boolean;
 }
 
 export function ReservationItem({
@@ -16,6 +17,7 @@ export function ReservationItem({
   index,
   onApprove,
   onReject,
+  isLoading = false,
 }: ReservationItemProps) {
   const getMatchScoreColor = (score: number) => {
     if (score >= 90) return 'bg-green-100 text-green-800 border-green-200';
@@ -126,20 +128,30 @@ export function ReservationItem({
             <>
               <Button
                 size="sm"
-                className="!border-green-600 hover:bg-green-700 text-green-700   gap-2 h-8"
+                className="!border-green-600 hover:bg-green-700 text-green-700 gap-2 h-8"
                 onClick={() => onApprove(match.id)}
+                disabled={isLoading}
               >
-                <CheckCircle2 className="size-4" />
-                Approve
+                {isLoading ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <CheckCircle2 className="size-4" />
+                )}
+                {isLoading ? 'Loading...' : 'Approve'}
               </Button>
               <Button
                 size="sm"
                 variant="outline"
                 className="!text-red-600 !border-red-600 hover:bg-red-50 hover:border-red-700 gap-2 h-8"
                 onClick={() => onReject(match.id)}
+                disabled={isLoading}
               >
-                <XCircle className="size-4" />
-                Reject
+                {isLoading ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <XCircle className="size-4" />
+                )}
+                {isLoading ? 'Loading...' : 'Reject'}
               </Button>
             </>
           ) : (

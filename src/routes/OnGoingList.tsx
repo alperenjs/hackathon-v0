@@ -1,8 +1,10 @@
 import OngoingList from '@/features/reservation/OnGoingList';
 import { useApprovedMatches } from '@/hooks/api/useMatches';
+import { useMeetsByMatchId } from '@/hooks/api/useMeets';
 import { matchToMentorshipMatch } from '@/lib/utils/matchAdapter';
 import type { MentorshipMatch } from '@/data/mockData';
 import type { Match } from '@/lib/types/api';
+import { useState } from 'react';
 
 interface OngoingListPageProps {
   userId?: number;
@@ -11,6 +13,8 @@ interface OngoingListPageProps {
 
 export default function OngoingListPage({ userId, isNotHR }: OngoingListPageProps = {}) {
   const { data: matches, loading, error } = useApprovedMatches();
+  const { fetchMeetsByMatchId, loading: loadingMeets } = useMeetsByMatchId();
+  const [meetsData, setMeetsData] = useState<Record<string, any[]>>({});
 
   if (loading) {
     return (
@@ -33,13 +37,6 @@ export default function OngoingListPage({ userId, isNotHR }: OngoingListPageProp
   
   // Always filter when isNotHR is true and userId is valid
   if (isNotHR && userId !== undefined && userId !== null && typeof userId === 'number') {
-    console.log('Filtering matches for non-HR user:', { 
-      userId, 
-      userIdType: typeof userId,
-      isNotHR, 
-      totalMatches: matches?.length 
-    });
-    
     filteredMatches = (matches || []).filter((match) => {
       // Use strict equality and ensure both are numbers
       const mentorIdMatch = match.mentorId !== null && 
@@ -48,34 +45,32 @@ export default function OngoingListPage({ userId, isNotHR }: OngoingListPageProp
       const menteeIdMatch = match.menteeId !== null && 
                            match.menteeId !== undefined && 
                            Number(match.menteeId) === Number(userId);
-      const shouldInclude = mentorIdMatch || menteeIdMatch;
-      
-      if (!shouldInclude) {
-        console.log('Excluding match:', { 
-          matchId: match.id, 
-          mentorId: match.mentorId, 
-          menteeId: match.menteeId, 
-          userId,
-          mentorIdType: typeof match.mentorId,
-          menteeIdType: typeof match.menteeId
-        });
-      }
-      
-      return shouldInclude;
+      return mentorIdMatch || menteeIdMatch;
     });
-    
-    console.log('Filtered matches count:', filteredMatches.length, 'out of', matches?.length);
-  } else {
-    console.log('No filtering applied:', { isNotHR, userId, userIdType: typeof userId });
   }
 
   const mentorshipMatches: MentorshipMatch[] = filteredMatches.map(matchToMentorshipMatch);
-console.log('mentorshipMatches', mentorshipMatches);
+
+  const handleDetailClick = async (matchId: string) => {
+    try {
+      // Fetch meets for this match using get-meets-by-matchid
+      const matchIdNum = parseInt(matchId);
+      if (!isNaN(matchIdNum)) {
+        const meets = await fetchMeetsByMatchId(matchIdNum);
+        setMeetsData(prev => ({ ...prev, [matchId]: meets || [] }));
+      }
+    } catch (err) {
+      console.error('Failed to fetch meets:', err);
+    }
+  };
+
   return (
     <div>
       <OngoingList 
         matches={mentorshipMatches} 
-        onDetailClick={() => { }} 
+        onDetailClick={handleDetailClick}
+        meetsData={meetsData}
+        loadingMeets={loadingMeets}
       />
     </div>
   );

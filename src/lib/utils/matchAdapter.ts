@@ -35,6 +35,7 @@ function getCountryCode(country: string | null): string {
     'Italy': 'IT',
     'Latvia': 'LV',
     'Liechtenstein': 'LI',
+    'Spain': 'ES',
   };
   
   return countryMap[country] || '🌍';
