@@ -23,14 +23,25 @@ export function OngoingItem({
 
   const getCountryFlag = (countryCode: string) => {
     const flags: Record<string, string> = {
-      US: '🇺🇸',
-      GB: '🇬🇧',
-      CA: '🇨🇦',
       DE: '🇩🇪',
       FR: '🇫🇷',
       BR: '🇧🇷',
       JP: '🇯🇵',
       SG: '🇸🇬',
+      TR: '🇹🇷',
+      AL: '🇦🇱',
+      AD: '🇦🇩',
+      AT: '🇦🇹',
+      BE: '🇧🇪',
+      BG: '🇧🇬',
+      HR: '🇭🇷',
+      CY: '🇨🇾',
+      CZ: '🇨🇿',
+      DK: '🇩🇰',
+      IT: '🇮🇹',
+      LV: '🇱🇻',
+      LI: '🇱🇮',
+      ES: '🇪🇸',
     };
     return flags[countryCode] || '🌍';
   };

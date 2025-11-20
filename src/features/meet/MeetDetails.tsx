@@ -1,4 +1,4 @@
-import { Calendar, Clock, User, Briefcase, Award, CheckCircle2, Circle } from 'lucide-react';
+import { Calendar, Clock, User, Briefcase, Award } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/common/ui/avatar';
 import { Badge } from '@/common/ui/badge';
 import {
@@ -32,6 +32,20 @@ export function MeetDetails({ match, open, onOpenChange, meets = [], loadingMeet
       BR: '🇧🇷',
       JP: '🇯🇵',
       SG: '🇸🇬',
+      TR: '🇹🇷',
+      AL: '🇦🇱',
+      AD: '🇦🇩',
+      AT: '🇦🇹',
+      BE: '🇧🇪',
+      BG: '🇧🇬',
+      HR: '🇭🇷',
+      CY: '🇨🇾',
+      CZ: '🇨🇿',
+      DK: '🇩🇰',
+      IT: '🇮🇹',
+      LV: '🇱🇻',
+      LI: '🇱🇮',
+      ES: '🇪🇸',
     };
     return flags[countryCode] || '🌍';
   };
@@ -180,11 +194,6 @@ export function MeetDetails({ match, open, onOpenChange, meets = [], loadingMeet
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-3">
-                          {meet.isCompleted ? (
-                            <CheckCircle2 className="size-5 text-green-600 flex-shrink-0" />
-                          ) : (
-                            <Circle className="size-5 text-gray-400 flex-shrink-0" />
-                          )}
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
                               <Calendar className="size-4 text-gray-500" />
