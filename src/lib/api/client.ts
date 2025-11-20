@@ -17,6 +17,18 @@ class ApiError extends Error {
   }
 }
 
+// Function to get user email from localStorage (set by UserContext)
+function getUserEmail(): string {
+  // Try to get from localStorage (set by UserContext from Teams)
+  const storedEmail = localStorage.getItem('teams_user_email');
+  if (storedEmail) {
+    return storedEmail;
+  }
+  
+  // Fallback to default
+  return 'a.sozen@teamsystem.com';
+}
+
 class ApiClient {
   private client: AxiosInstance;
 
@@ -29,7 +41,7 @@ class ApiClient {
       baseURL: baseURL || defaultBaseURL,
       headers: {
         'Content-Type': 'application/json',
-        'x-u': 'a.sozen@teamsystem.com',
+        'x-u': getUserEmail(),
       },
       timeout: 30000,
       withCredentials: false,
@@ -42,10 +54,9 @@ class ApiClient {
     // Request interceptor
     this.client.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
-        // Ensure x-u header is always present
-        if (!config.headers['x-u']) {
-          config.headers['x-u'] = 'a.sozen@teamsystem.com';
-        }
+        // Ensure x-u header is always present with current user email
+        const userEmail = getUserEmail();
+        config.headers['x-u'] = userEmail;
         // Add any common headers or auth tokens here
         // const token = localStorage.getItem('token');
         // if (token) {
