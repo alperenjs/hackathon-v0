@@ -1,4 +1,4 @@
-import { CheckCircle2, XCircle, Loader2 } from 'lucide-react';
+import { CheckCircle2, XCircle, Loader2, ArrowRight } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/common/ui/avatar';
 import { Badge } from '@/common/ui/badge';
 import { Button } from '@/common/ui/button';
@@ -9,6 +9,7 @@ interface ReservationItemProps {
   index: number;
   onApprove: (matchId: string) => void;
   onReject: (matchId: string) => void;
+  onDetailClick?: (matchId: string) => void;
   isLoading?: boolean;
 }
 
@@ -17,6 +18,7 @@ export function ReservationItem({
   index,
   onApprove,
   onReject,
+  onDetailClick,
   isLoading = false,
 }: ReservationItemProps) {
   const getMatchScoreColor = (score: number) => {
@@ -126,6 +128,18 @@ export function ReservationItem({
         <div className="flex flex-col gap-2">
           {match.status === 'pending' ? (
             <>
+              {onDetailClick && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="!border-blue-600 hover:bg-blue-50 text-blue-700 gap-2 h-8"
+                  onClick={() => onDetailClick(match.id)}
+                  disabled={isLoading}
+                >
+                  Details
+                  <ArrowRight className="size-4" />
+                </Button>
+              )}
               <Button
                 size="sm"
                 className="!border-green-600 hover:bg-green-700 text-green-700 gap-2 h-8"

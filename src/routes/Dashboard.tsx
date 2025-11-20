@@ -100,7 +100,7 @@ export default function DashboardPage() {
               />
               
               <KPICard
-                title="No-Show Rate"
+                title="Meeting Non-Attendance"
                 value={`${noShowRate}%`}
                 icon={UserX}
                 iconColor="purple"

@@ -17,9 +17,10 @@ interface MeetDetailsProps {
   onOpenChange: (open: boolean) => void;
   meets?: Meet[];
   loadingMeets?: boolean;
+  hideMeetingTracking?: boolean;
 }
 
-export function MeetDetails({ match, open, onOpenChange, meets = [], loadingMeets = false }: MeetDetailsProps) {
+export function MeetDetails({ match, open, onOpenChange, meets = [], loadingMeets = false, hideMeetingTracking = false }: MeetDetailsProps) {
   if (!match) return null;
 
   const getCountryFlag = (countryCode: string) => {
@@ -167,81 +168,83 @@ export function MeetDetails({ match, open, onOpenChange, meets = [], loadingMeet
 
 
           {/* Following Meetings */}
-          {loadingMeets ? (
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
-                Meeting TRACKING
-              </h3>
-              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 text-center">
-                <p className="text-sm text-gray-500">Loading meetings...</p>
+          {!hideMeetingTracking && (
+            loadingMeets ? (
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+                  Meeting TRACKING
+                </h3>
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 text-center">
+                  <p className="text-sm text-gray-500">Loading meetings...</p>
+                </div>
               </div>
-            </div>
-          ) : meets.length > 0 ? (
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
-                Meeting TRACKING
-              </h3>
-              <div className="space-y-3">
-                {meets.map((meet) => (
-                  <div
-                    key={meet.id}
-                    className={`rounded-lg p-4 border ${
-                      meet.isCompleted
-                        ? 'bg-green-50 border-green-200'
-                        : 'bg-blue-50 border-blue-200'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1 space-y-2">
-                        <div className="flex items-center gap-3">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <Calendar className="size-4 text-gray-500" />
-                              <p className="text-sm font-semibold text-gray-900">
-                                {new Date(meet.meetTime).toLocaleDateString('en-US', {
-                                  weekday: 'short',
-                                  month: 'short',
-                                  day: 'numeric',
-                                  year: 'numeric'
-                                })}
-                              </p>
-                            </div>
-                            <div className="flex items-center gap-4 text-xs text-gray-600">
-                              <div className="flex items-center text-start gap-1">
-                                <Clock className="size-3" />
-                                <span>{new Date(meet.meetTime).toLocaleTimeString('en-US', {
-                                  hour: '2-digit',
-                                  minute: '2-digit'
-                                })}</span>
+            ) : meets.length > 0 ? (
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+                  Meeting TRACKING
+                </h3>
+                <div className="space-y-3">
+                  {meets.map((meet) => (
+                    <div
+                      key={meet.id}
+                      className={`rounded-lg p-4 border ${
+                        meet.isCompleted
+                          ? 'bg-green-50 border-green-200'
+                          : 'bg-blue-50 border-blue-200'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1 space-y-2">
+                          <div className="flex items-center gap-3">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-1">
+                                <Calendar className="size-4 text-gray-500" />
+                                <p className="text-sm font-semibold text-gray-900">
+                                  {new Date(meet.meetTime).toLocaleDateString('en-US', {
+                                    weekday: 'short',
+                                    month: 'short',
+                                    day: 'numeric',
+                                    year: 'numeric'
+                                  })}
+                                </p>
+                              </div>
+                              <div className="flex items-center gap-4 text-xs text-gray-600">
+                                <div className="flex items-center text-start gap-1">
+                                  <Clock className="size-3" />
+                                  <span>{new Date(meet.meetTime).toLocaleTimeString('en-US', {
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                  })}</span>
+                                </div>
                               </div>
                             </div>
                           </div>
+                          {meet.summaries && (
+                            <p className="text-xs text-gray-600 ml-8">{meet.summaries}</p>
+                          )}
+                          {meet.mentorFeedback && (
+                            <div className="ml-8">
+                              <p className="text-xs text-gray-500 mb-1">Mentor Feedback:</p>
+                              <p className="text-xs text-gray-600">{meet.mentorFeedback}</p>
+                            </div>
+                          )}
+                          {meet.menteeFeedback && (
+                            <div className="ml-8">
+                              <p className="text-xs text-gray-500 mb-1">Mentee Feedback:</p>
+                              <p className="text-xs text-gray-600">{meet.menteeFeedback}</p>
+                            </div>
+                          )}
                         </div>
-                        {meet.summaries && (
-                          <p className="text-xs text-gray-600 ml-8">{meet.summaries}</p>
-                        )}
-                        {meet.mentorFeedback && (
-                          <div className="ml-8">
-                            <p className="text-xs text-gray-500 mb-1">Mentor Feedback:</p>
-                            <p className="text-xs text-gray-600">{meet.mentorFeedback}</p>
-                          </div>
-                        )}
-                        {meet.menteeFeedback && (
-                          <div className="ml-8">
-                            <p className="text-xs text-gray-500 mb-1">Mentee Feedback:</p>
-                            <p className="text-xs text-gray-600">{meet.menteeFeedback}</p>
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex-shrink-0">
-                        {getStatusBadge(meet.isCompleted)}
+                        <div className="flex-shrink-0">
+                          {getStatusBadge(meet.isCompleted)}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ) : null}
+            ) : null
+          )}
         </div>
       </DialogContent>
     </Dialog>

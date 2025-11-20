@@ -3,6 +3,7 @@ import { toast } from '@/hooks/useToast';
 import ReservationList from '@/features/reservation/ReservationList';
 import { useWaitingMatches, useApproveMatch, useRejectMatch } from '@/hooks/api/useMatches';
 import { matchToMentorshipMatch } from '@/lib/utils/matchAdapter';
+import { MeetDetails } from '@/features/meet/MeetDetails';
 import type { MentorshipMatch } from '@/data/mockData';
 
 export default function ReservationListPage() {
@@ -11,6 +12,8 @@ export default function ReservationListPage() {
   const { rejectMatch } = useRejectMatch();
   const [removedMatchIds, setRemovedMatchIds] = useState<Set<string>>(new Set());
   const [loadingMatchIds, setLoadingMatchIds] = useState<Set<string>>(new Set());
+  const [selectedMatch, setSelectedMatch] = useState<MentorshipMatch | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleApprove = useCallback(async (matchId: string) => {
     // Prevent multiple clicks
@@ -102,15 +105,30 @@ export default function ReservationListPage() {
         .filter(match => !removedMatchIds.has(match.id))
     : [];
 
+  const handleDetailClick = (matchId: string) => {
+    const match = mentorshipMatches.find(m => m.id === matchId);
+    if (match) {
+      setSelectedMatch(match);
+      setIsModalOpen(true);
+    }
+  };
+
   return (
-    <div>
+    <>
       <ReservationList 
         matches={mentorshipMatches} 
         onApprove={handleApprove} 
         onReject={handleReject}
+        onDetailClick={handleDetailClick}
         loadingMatchIds={loadingMatchIds}
       />
-    </div>
+      <MeetDetails 
+        match={selectedMatch} 
+        open={isModalOpen} 
+        onOpenChange={setIsModalOpen}
+        hideMeetingTracking={true}
+      />
+    </>
   );
 }
 

@@ -149,8 +149,8 @@ export function OngoingItem({
       <td className="px-6 py-4">
         <div className="space-y-2">
           <div>
-          <Badge  variant="outline" className="!bg-green-100 border-green-800 text-xs  bg-gray-50">
-                  2/5 completed
+          <Badge  variant="outline" className="!bg-yellow-100 border-yellow-800 text-xs  bg-gray-50">
+                  0/6 completed
                 </Badge> 
           </div>
      
