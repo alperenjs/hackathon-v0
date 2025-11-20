@@ -21,8 +21,16 @@ export default defineConfig({
         target: 'https://garavel.doganozturk.net',
         changeOrigin: true,
         secure: true,
-        headers: {
-          'x-u': 'a.sozen@teamsystem.com',
+        rewrite: (path) => path,
+        configure: (proxy, _options) => {
+          proxy.on('proxyReq', (proxyReq, req, _res) => {
+            // Forward x-u header from request or use default
+            const xUHeader = (req.headers['x-u'] as string) || 'a.sozen@teamsystem.com';
+            proxyReq.setHeader('x-u', xUHeader);
+          });
+          proxy.on('error', (err, _req, _res) => {
+            console.log('proxy error', err);
+          });
         },
       },
     },
