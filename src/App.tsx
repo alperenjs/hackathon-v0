@@ -47,7 +47,7 @@ function AppContent() {
   const [searchParams] = useSearchParams();
   const tab = searchParams.get('tab');
   const [activeTab, setActiveTab] = useState('Approvals');
-  const { displayName } = useUserContext();
+  const { displayName, userPrincipalName } = useUserContext();
 
   // URL'de tab parametresi varsa, o sekmeye yönlendir
   let ReservationPage = ReservationListPage;
@@ -77,6 +77,7 @@ function AppContent() {
                 Ongoing
               </Tabs.Trigger>
             </Tabs.List>
+            <p>{userPrincipalName}</p>
             {displayName && (
               <div className="px-6 py-3 text-sm font-medium text-gray-700">
                 {displayName}
